@@ -28,14 +28,11 @@ get_next_move <- function(similarity_matrix, pos, id, path = c()) {
   }
 }
 
+# nrow - number of paths
+all_paths <- matrix(unlist(get_next_move(similarity_matrix, 0, 1)), ncol = ncol(similarity_matrix), byrow = TRUE)
 
-get_next_move(similarity_matrix, 0, 2)
-
-
-
-
-
-
-
-
-
+similarity_matrix
+lapply(1L:ncol(similarity_matrix), function(i) all_paths[1, i])
+path_scores <- lapply(1L:nrow(all_paths), function(ith_path) 
+  sum(sapply(1L:ncol(similarity_matrix), function(i) 
+    similarity_matrix[all_paths[ith_path, i], i])))
